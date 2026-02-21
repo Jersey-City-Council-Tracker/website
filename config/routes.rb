@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :invitations, only: [ :index, :new, :create, :destroy ]
     resources :users, only: [ :index ]
     resources :meetings, only: [ :index, :show, :new, :create, :destroy ]
+    resources :council_members
   end
 
   resources :meetings, only: [ :index, :show ]

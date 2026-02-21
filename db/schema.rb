@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_21_160449) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_21_163638) do
   create_table "agenda_items", force: :cascade do |t|
     t.integer "agenda_section_id", null: false
     t.datetime "created_at", null: false
@@ -46,6 +46,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_21_160449) do
     t.integer "version_number", default: 1, null: false
     t.index ["meeting_id", "version_number"], name: "index_agenda_versions_on_meeting_id_and_version_number", unique: true
     t.index ["meeting_id"], name: "index_agenda_versions_on_meeting_id"
+  end
+
+  create_table "council_members", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "seat", null: false
+    t.date "term_end"
+    t.date "term_start", null: false
+    t.datetime "updated_at", null: false
+    t.index ["last_name"], name: "index_council_members_on_last_name"
   end
 
   create_table "invitations", force: :cascade do |t|

@@ -1,0 +1,47 @@
+<div class="max-w-lg">
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <%= form_with model: [:admin, council_member], class: "space-y-5" do |form| %>
+      <% if council_member.errors.any? %>
+        <div class="rounded-lg bg-red-50 p-4">
+          <h2 class="text-sm font-medium text-red-800"><%= pluralize(council_member.errors.count, "error") %> prohibited this council member from being saved:</h2>
+          <ul class="mt-2 list-disc list-inside text-sm text-red-700">
+            <% council_member.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= form.label :first_name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_field :first_name, class: "block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" %>
+      </div>
+
+      <div>
+        <%= form.label :last_name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_field :last_name, class: "block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" %>
+      </div>
+
+      <div>
+        <%= form.label :seat, class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.select :seat, CouncilMember.seats.keys.map { |s| [CouncilMember.new(seat: s).seat_label, s] }, { include_blank: "Select a seat" }, class: "block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" %>
+      </div>
+
+      <div>
+        <%= form.label :term_start, class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.date_field :term_start, class: "block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" %>
+      </div>
+
+      <div>
+        <%= form.label :term_end, "Term end (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.date_field :term_end, class: "block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" %>
+        <p class="mt-1 text-xs text-gray-500">Leave blank for current members.</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <%= form.submit class: "rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 cursor-pointer" %>
+        <%= link_to "Cancel", admin_council_members_path, class: "text-sm text-gray-600 hover:text-gray-800" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Council Members</h1>
+  <%= link_to "Add council member", new_admin_council_member_path, class: "inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors" %>
+</div>
+
+<% if @current_members.any? || @past_members.any? %>
+  <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Name</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Seat</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Term</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Status</th>
+          <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wide">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @current_members.each do |member| %>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= member.full_name %></td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <%= member.seat_label %>
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+              <%= member.term_start.strftime("%b %Y") %> &ndash; <%= member.term_end&.strftime("%b %Y") || "Present" %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Current</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+              <%= link_to "Edit", edit_admin_council_member_path(member), class: "text-blue-600 hover:text-blue-800 font-medium" %>
+              <%= button_to "Delete", admin_council_member_path(member), method: :delete, class: "text-red-600 hover:text-red-800 font-medium ml-3 cursor-pointer", data: { turbo_confirm: "Are you sure you want to delete this council member?" } %>
+            </td>
+          </tr>
+        <% end %>
+        <% @past_members.each do |member| %>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= member.full_name %></td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <%= member.seat_label %>
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+              <%= member.term_start.strftime("%b %Y") %> &ndash; <%= member.term_end&.strftime("%b %Y") || "Present" %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Past</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+              <%= link_to "Edit", edit_admin_council_member_path(member), class: "text-blue-600 hover:text-blue-800 font-medium" %>
+              <%= button_to "Delete", admin_council_member_path(member), method: :delete, class: "text-red-600 hover:text-red-800 font-medium ml-3 cursor-pointer", data: { turbo_confirm: "Are you sure you want to delete this council member?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+    <p class="text-gray-500">No council members have been added yet.</p>
+    <p class="mt-2 text-sm text-gray-400">Add council members to start tracking their votes and attendance.</p>
+  </div>
+<% end %>
