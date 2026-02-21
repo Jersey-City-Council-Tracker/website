@@ -81,4 +81,47 @@ class Admin::AgendaItemTagsControllerTest < ActionDispatch::IntegrationTest
     delete admin_agenda_item_tag_path(ait), params: { agenda_item_id: ait.agenda_item_id }
     assert_redirected_to new_session_path
   end
+
+  # --- copy ---
+
+  test "copy tags from item with same file number" do
+    source = agenda_items(:ordinance_with_details)
+    target = @agenda_item
+    target.update!(file_number: source.file_number)
+
+    assert_difference "AgendaItemTag.count", 2 do
+      post copy_admin_agenda_item_tags_path,
+        params: { agenda_item_id: target.id, source_id: source.id },
+        headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    end
+
+    assert_response :success
+    assert_includes target.reload.tags, tags(:budget)
+    assert_includes target.tags, tags(:infrastructure)
+  end
+
+  test "copy tags is idempotent" do
+    source = agenda_items(:ordinance_with_details)
+    target = @agenda_item
+    target.update!(file_number: source.file_number)
+
+    post copy_admin_agenda_item_tags_path,
+      params: { agenda_item_id: target.id, source_id: source.id },
+      headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    assert_no_difference "AgendaItemTag.count" do
+      post copy_admin_agenda_item_tags_path,
+        params: { agenda_item_id: target.id, source_id: source.id },
+        headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    end
+
+    assert_response :success
+  end
+
+  test "copy requires authentication" do
+    sign_out
+    post copy_admin_agenda_item_tags_path,
+      params: { agenda_item_id: @agenda_item.id, source_id: agenda_items(:ordinance_with_details).id }
+    assert_redirected_to new_session_path
+  end
 end

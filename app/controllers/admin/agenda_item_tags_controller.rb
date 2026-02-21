@@ -16,6 +16,15 @@ module Admin
       render_tags_stream
     end
 
+    def copy
+      source = AgendaItem.find(params[:source_id])
+      source.tags.each do |tag|
+        @agenda_item.agenda_item_tags.find_or_create_by!(tag: tag)
+      end
+
+      render_tags_stream
+    end
+
     private
 
     def set_agenda_item

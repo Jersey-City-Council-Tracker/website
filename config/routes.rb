@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     resources :tags, only: [] do
       get :search, on: :collection
     end
-    resources :agenda_item_tags, only: [ :create, :destroy ]
+    resources :agenda_item_tags, only: [ :create, :destroy ] do
+      post :copy, on: :collection
+    end
   end
 
   resources :meetings, only: [ :index, :show ]
