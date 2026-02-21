@@ -1,0 +1,23 @@
+pending_invitation:
+  token: pending_token_abc123
+  role: 1
+  invited_by: site_admin
+  accepted_by: null
+  accepted_at: null
+  expires_at: <%= 3.days.from_now.to_fs(:db) %>
+
+accepted_invitation:
+  token: accepted_token_xyz789
+  role: 1
+  invited_by: site_admin
+  accepted_by: content_admin
+  accepted_at: <%= 2.days.ago.to_fs(:db) %>
+  expires_at: <%= 5.days.from_now.to_fs(:db) %>
+
+expired_invitation:
+  token: expired_token_def456
+  role: 1
+  invited_by: site_admin
+  accepted_by: null
+  accepted_at: null
+  expires_at: <%= 1.day.ago.to_fs(:db) %>

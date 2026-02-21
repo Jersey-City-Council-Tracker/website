@@ -37,12 +37,31 @@
             <%= link_to "Meetings", "#", class: "hover:text-blue-700 transition-colors" %>
             <%= link_to "Council Members", "#", class: "hover:text-blue-700 transition-colors" %>
             <%= link_to "Topics", "#", class: "hover:text-blue-700 transition-colors" %>
+            <% if authenticated? %>
+              <% if Current.session&.user&.admin? %>
+                <%= link_to "Admin", admin_dashboard_path, class: "hover:text-blue-700 transition-colors" %>
+              <% end %>
+              <%= link_to "Profile", edit_profile_path, class: "hover:text-blue-700 transition-colors" %>
+              <%= button_to "Sign out", session_path, method: :delete, class: "hover:text-blue-700 transition-colors cursor-pointer" %>
+            <% else %>
+              <%= link_to "Sign in", new_session_path, class: "hover:text-blue-700 transition-colors" %>
+            <% end %>
           </div>
         </div>
       </nav>
     </header>
 
     <main class="flex-1">
+      <% if notice %>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+          <p class="py-2 px-3 bg-green-50 text-green-700 font-medium rounded-lg" id="notice"><%= notice %></p>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+          <p class="py-2 px-3 bg-red-50 text-red-700 font-medium rounded-lg" id="alert"><%= alert %></p>
+        </div>
+      <% end %>
       <%= yield %>
     </main>
 

@@ -1,0 +1,8 @@
+regular_user_session:
+  user: regular_user
+
+content_admin_session:
+  user: content_admin
+
+site_admin_session:
+  user: site_admin
