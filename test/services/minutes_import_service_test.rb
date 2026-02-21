@@ -116,9 +116,9 @@ class MinutesImportServiceTest < ActiveSupport::TestCase
     service = MinutesImportService.new(data).call
     assert_not service.success?
 
-    # Result should not have been persisted
+    # Result should not have been changed by the failed import
     item = agenda_items(:ordinance_with_details).reload
-    assert_nil item.result
+    assert_equal "approved", item.result
   end
 
   test "handles position-to-names vote format" do

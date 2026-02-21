@@ -7,6 +7,7 @@ ordinance_with_details:
   file_number: "Ord. 26-009"
   item_type: ordinance
   url: "http://example.com/ordinance.pdf"
+  result: approved
   position: 0
 
 resolution_item:
